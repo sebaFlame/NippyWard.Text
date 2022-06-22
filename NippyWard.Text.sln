@@ -1,33 +1,39 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFACD311-9696-4E9C-A75E-B1AB0B98FA17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NippyWard.Text", "src\NippyWard.Text\NippyWard.Text.csproj", "{328C33C8-3FD6-4D9A-B66D-274B67AABC40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text", "src\NippyWard.Text\NippyWard.Text.csproj", "{328C33C8-3FD6-4D9A-B66D-274B67AABC40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NippyWard.Text.Generator", "src\NippyWard.Text.Generator\NippyWard.Text.Generator.csproj", "{78B89F7C-C2C9-4B57-BA05-6BF765A92C60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text.Generator", "src\NippyWard.Text.Generator\NippyWard.Text.Generator.csproj", "{78B89F7C-C2C9-4B57-BA05-6BF765A92C60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bench", "bench", "{8A6ABCFF-CE57-44A9-A1B8-4D91A29C5F98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringComparer", "bench\StringComparer\StringComparer.csproj", "{9FC0FC5F-D837-4630-8FF5-6E5C40099070}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringComparer", "bench\StringComparer\StringComparer.csproj", "{9FC0FC5F-D837-4630-8FF5-6E5C40099070}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringEquality", "bench\StringEquality\StringEquality.csproj", "{0C42082F-8949-43AB-A9BD-55AB290516D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringEquality", "bench\StringEquality\StringEquality.csproj", "{0C42082F-8949-43AB-A9BD-55AB290516D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringHashing", "bench\StringHashing\StringHashing.csproj", "{71F52240-5B3C-4F61-9292-4FE892CFCF46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringHashing", "bench\StringHashing\StringHashing.csproj", "{71F52240-5B3C-4F61-9292-4FE892CFCF46}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{661DCEE4-4917-49B2-A428-13F419E993DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NippyWard.Text.Tests", "test\NippyWard.Text.Tests\NippyWard.Text.Tests.csproj", "{3AA61B08-38A3-4D3F-8786-7A6327A90541}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text.Tests", "test\NippyWard.Text.Tests\NippyWard.Text.Tests.csproj", "{3AA61B08-38A3-4D3F-8786-7A6327A90541}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text.LineFeed", "src\NippyWard.Text.LineFeed\NippyWard.Text.LineFeed.csproj", "{53730998-1F39-4981-8B50-A5363BDB2583}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LineFeed", "bench\LineFeed\LineFeed.csproj", "{D4469E3B-7C0C-4CB8-8171-A52C7A5444A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43F57AE4-41F3-478A-851C-809B30F7C2DE}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{328C33C8-3FD6-4D9A-B66D-274B67AABC40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -54,6 +60,17 @@ Global
 		{3AA61B08-38A3-4D3F-8786-7A6327A90541}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AA61B08-38A3-4D3F-8786-7A6327A90541}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AA61B08-38A3-4D3F-8786-7A6327A90541}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53730998-1F39-4981-8B50-A5363BDB2583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53730998-1F39-4981-8B50-A5363BDB2583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53730998-1F39-4981-8B50-A5363BDB2583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53730998-1F39-4981-8B50-A5363BDB2583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4469E3B-7C0C-4CB8-8171-A52C7A5444A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4469E3B-7C0C-4CB8-8171-A52C7A5444A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4469E3B-7C0C-4CB8-8171-A52C7A5444A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4469E3B-7C0C-4CB8-8171-A52C7A5444A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{328C33C8-3FD6-4D9A-B66D-274B67AABC40} = {EFACD311-9696-4E9C-A75E-B1AB0B98FA17}
@@ -62,5 +79,10 @@ Global
 		{0C42082F-8949-43AB-A9BD-55AB290516D7} = {8A6ABCFF-CE57-44A9-A1B8-4D91A29C5F98}
 		{71F52240-5B3C-4F61-9292-4FE892CFCF46} = {8A6ABCFF-CE57-44A9-A1B8-4D91A29C5F98}
 		{3AA61B08-38A3-4D3F-8786-7A6327A90541} = {661DCEE4-4917-49B2-A428-13F419E993DF}
+		{53730998-1F39-4981-8B50-A5363BDB2583} = {EFACD311-9696-4E9C-A75E-B1AB0B98FA17}
+		{D4469E3B-7C0C-4CB8-8171-A52C7A5444A8} = {8A6ABCFF-CE57-44A9-A1B8-4D91A29C5F98}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D02F53E-C1F8-4AA9-9BD5-088506D3EE58}
 	EndGlobalSection
 EndGlobal
