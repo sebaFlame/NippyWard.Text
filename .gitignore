@@ -11,3 +11,6 @@
 [Bb]in/
 [Oo]bj/
 BenchmarkDotNet.Artifacts/
+
+revelation.txt
+UTF-8-demo.txt

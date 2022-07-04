@@ -13,10 +13,10 @@ namespace LineFeed
     public static class Program
     {
         public static void Main(string[] args)
-            => BenchmarkRunner.Run<LineFeedBenchmakr>(args: args);
+            => BenchmarkRunner.Run<LineFeedBenchmark>(args: args);
     }
 
-    public class LineFeedBenchmakr
+    public class LineFeedBenchmark
     {
         private ILineFeed _vectorLineFeed;
         private ILineFeed _longLineFeed;

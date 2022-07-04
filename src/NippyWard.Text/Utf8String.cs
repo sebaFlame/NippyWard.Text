@@ -235,11 +235,22 @@ namespace NippyWard.Text
         IEnumerator<Rune> IEnumerable<Rune>.GetEnumerator()
         {
             RuneEnumerator enumerator = new RuneEnumerator(this);
+            int cnt = 0;
 
             while(enumerator.MoveNext())
             {
-                yield return enumerator.Current;
+                cnt++;
             }
+
+            Rune[] runes = new Rune[cnt];
+            enumerator.Reset();
+
+            while (enumerator.MoveNext())
+            {
+                runes[++cnt] = enumerator.Current;
+            }
+
+            return ((IEnumerable<Rune>)runes).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
