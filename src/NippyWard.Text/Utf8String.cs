@@ -1,10 +1,12 @@
 using System;
 using System.Buffers;
 using System.Text;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace NippyWard.Text
 {
-    public class Utf8String : IEquatable<Utf8String>
+    public class Utf8String : IEquatable<Utf8String>, IEnumerable<Rune>
     {
         public ReadOnlySequence<byte> Buffer => this._buffer;
         public int Length => (int)this._buffer.Length;
@@ -229,5 +231,18 @@ namespace NippyWard.Text
 
             return utf8;
         }
+
+        IEnumerator<Rune> IEnumerable<Rune>.GetEnumerator()
+        {
+            RuneEnumerator enumerator = new RuneEnumerator(this);
+
+            while(enumerator.MoveNext())
+            {
+                yield return enumerator.Current;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => (this as IEnumerable<Rune>).GetEnumerator();
     }
 }
