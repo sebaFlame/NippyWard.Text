@@ -453,7 +453,7 @@ namespace NippyWard.Text
             }
             else
             {
-                MurmurHash.HashUInt(hash, 0);
+                hash = MurmurHash.HashUInt(hash, 0);
                 return (int)MurmurHash.FinalizeHash(hash, 0);
             }
 
@@ -463,7 +463,7 @@ namespace NippyWard.Text
                 while(cp <= _BMPLevel1Max)
                 {
                     cf = MapBMPBelowFF(cp, ref bmpMapFF);
-                    MurmurHash.HashUInt(hash, cf);
+                    hash = MurmurHash.HashUInt(hash, cf);
 
                     if(enumerator.MoveNext())
                     {
@@ -481,7 +481,7 @@ namespace NippyWard.Text
                       and > _BMPLevel1Max)
                 {
                     cf = MapBMPBelowFFFF(cp, ref bmpMapL1, ref bmpMapL3);
-                    MurmurHash.HashUInt(hash, cf);
+                    hash = MurmurHash.HashUInt(hash, cf);
 
                     if(enumerator.MoveNext())
                     {
@@ -499,7 +499,7 @@ namespace NippyWard.Text
                       and > _BMPLevel3Max)
                 {
                     cf = MapSMPBelow01FFFF(cp, ref smpMapL1, ref smpMapL3);
-                    MurmurHash.HashUInt(hash, cf);
+                    hash = MurmurHash.HashUInt(hash, cf);
 
                     if(enumerator.MoveNext())
                     {
@@ -520,7 +520,7 @@ namespace NippyWard.Text
                 }
 
                 //code point > _SMPMax
-                MurmurHash.HashUInt(hash, cp);
+                hash = MurmurHash.HashUInt(hash, cp);
 
                 if(enumerator.MoveNext())
                 {
