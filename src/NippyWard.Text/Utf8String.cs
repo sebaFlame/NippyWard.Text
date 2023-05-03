@@ -1,5 +1,6 @@
 using System;
 using System.Buffers;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace NippyWard.Text
@@ -68,6 +69,12 @@ namespace NippyWard.Text
 
         public Utf8String Slice(int start)
             => new Utf8String(this._buffer.Slice(start));
+
+        public bool StartsWith(uint c)
+        {
+            Utf8CodePointEnumerator en = this.GetEnumerator();
+            return en.MoveNext() && en.Current == c;
+        }
 
 #nullable enable
         public bool Equals(Utf8String? other)
@@ -139,6 +146,14 @@ namespace NippyWard.Text
 
         public override string ToString()
             => (string)this;
+
+        public static Utf8String Copy(Utf8String str)
+        {
+            byte[] buf = new byte[str.Length];
+            str.Buffer.CopyTo(buf);
+
+            return new Utf8String(buf);
+        }
 
         public static explicit operator string(Utf8String str)
             => new string(FromUtf8(str).Span);
