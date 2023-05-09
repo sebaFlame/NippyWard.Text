@@ -309,10 +309,11 @@ namespace NippyWard.Text
 
             Rune[] runes = new Rune[cnt];
             enumerator.Reset();
+            cnt = 0;
 
             while (enumerator.MoveNext())
             {
-                runes[++cnt] = enumerator.Current;
+                runes[cnt++] = enumerator.Current;
             }
 
             return ((IEnumerable<Rune>)runes).GetEnumerator();
