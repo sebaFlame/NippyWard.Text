@@ -58,7 +58,7 @@ namespace NippyWard.Text
 
         public override bool Equals(object obj)
         {
-            if(obj is Utf8String str)
+            if (obj is Utf8String str)
             {
                 return Utf8String.Equals(this, str);
             }
@@ -78,6 +78,56 @@ namespace NippyWard.Text
             return en.MoveNext() && en.Current == c;
         }
 
+        /// <summary>
+        /// Find the byte (!) index of any unicode encoded codepoint
+        /// </summary>
+        /// <param name="c">The codepoint to find</param>
+        /// <returns>The index or -1 if not found</returns>
+        public long IndexOf(uint c)
+        {
+            if (c <= byte.MaxValue)
+            {
+                return this.IndexOf((byte)c);
+            }
+
+            Utf8CodePointEnumerator en = this.GetEnumerator();
+
+            while (en.MoveNext())
+            {
+                if (c == en.Current)
+                {
+                    return en.Index;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Find the byte (!) index of any rune
+        /// </summary>
+        /// <param name="c">The rune to find</param>
+        /// <returns>The index or -1 if not found</returns>
+        public long IndexOf(Rune r)
+            => this.IndexOf((uint)r.Value);
+
+        /// <summary>
+        /// Find any ASCII encoded codepoint.
+        /// </summary>
+        /// <param name="b">The ascii char to find</param>
+        /// <returns>The index or -1 if not found</returns>
+        public long IndexOf(byte b)
+        {
+            SequenceReader<byte> reader = this.CreateSequenceReader();
+
+            if (!reader.TryAdvanceTo(b, false))
+            {
+                return -1;
+            }
+
+            return reader.Consumed;
+        }
+
 #nullable enable
         public bool Equals(Utf8String? other)
             => Utf8String.Equals(this, other);
@@ -95,7 +145,7 @@ namespace NippyWard.Text
             StringComparison stringComparison
         )
         {
-            switch(stringComparison)
+            switch (stringComparison)
             {
                 case StringComparison.CurrentCulture:
                 case StringComparison.CurrentCultureIgnoreCase:
@@ -122,7 +172,7 @@ namespace NippyWard.Text
             StringComparison stringComparison
         )
         {
-            switch(stringComparison)
+            switch (stringComparison)
             {
                 case StringComparison.CurrentCulture:
                 case StringComparison.CurrentCultureIgnoreCase:
@@ -166,7 +216,7 @@ namespace NippyWard.Text
         public static ReadOnlyMemory<char> FromUtf8(Utf8String str)
         {
             Decoder decoder;
-            if(_Decoder is null)
+            if (_Decoder is null)
             {
                 _Decoder = _Utf8Encoding.GetDecoder();
             }
@@ -185,18 +235,18 @@ namespace NippyWard.Text
             int charsUsed = 0;
 
             stringMemory = completeMemory;
-            foreach(ReadOnlyMemory<byte> memory in sequence)
+            foreach (ReadOnlyMemory<byte> memory in sequence)
             {
-                if(memory.Length == 0)
+                if (memory.Length == 0)
                 {
                     continue;
                 }
 
                 unsafe
                 {
-                    fixed(char* c = stringMemory.Span)
+                    fixed (char* c = stringMemory.Span)
                     {
-                        fixed(byte* b = memory.Span)
+                        fixed (byte* b = memory.Span)
                         {
                             decoder.Convert
                             (
@@ -213,7 +263,7 @@ namespace NippyWard.Text
                     }
                 }
 
-                if(completed)
+                if (completed)
                 {
                     totalStringLength += charsUsed;
                     stringMemory = stringMemory.Slice(charsUsed);
@@ -229,7 +279,7 @@ namespace NippyWard.Text
 
         public static ReadOnlyMemory<byte> FromUtf16(string str)
         {
-            if(_Encoder is null)
+            if (_Encoder is null)
             {
                 _Encoder = _Utf8Encoding.GetEncoder();
             }
@@ -252,7 +302,7 @@ namespace NippyWard.Text
             RuneEnumerator enumerator = new RuneEnumerator(this);
             int cnt = 0;
 
-            while(enumerator.MoveNext())
+            while (enumerator.MoveNext())
             {
                 cnt++;
             }

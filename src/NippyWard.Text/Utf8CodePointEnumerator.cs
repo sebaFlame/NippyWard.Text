@@ -6,14 +6,16 @@ namespace NippyWard.Text
 {
     public ref struct Utf8CodePointEnumerator
     {
-        public SequencePosition Position => this._reader.Position;
+        public long Index => this._reader.Consumed - this._cpLength;
+        public long Position => this._reader.Consumed;
 
         private SequenceReader<byte> _reader;
         private uint _remainingCodeUnits;
         private uint _codePoint;
+        private int _cpLength;
 
         //cache remaining length
-        private int _remaininLength;
+        private int _remainingLength;
 
         private static readonly byte[] _Lengths =
         {
@@ -36,7 +38,8 @@ namespace NippyWard.Text
             this._reader = new SequenceReader<byte>(str);
             this._remainingCodeUnits = 0;
             this._codePoint = 0;
-            this._remaininLength = 0;
+            this._remainingLength = 0;
+            this._cpLength = 0;
         }
 
         //return the current code point
@@ -53,13 +56,13 @@ namespace NippyWard.Text
             int remainingLength = default;
 
             //read from remaining code units
-            if(this._remaininLength > 0)
+            if(this._remainingLength > 0)
             {
                 DecodeCodePoint
                 (
                     ref this._codePoint,
                     ref this._remainingCodeUnits,
-                    ref this._remaininLength,
+                    ref this._remainingLength,
                     out _
                 );
 
@@ -79,20 +82,23 @@ namespace NippyWard.Text
                 //advance reader with read length
                 this._reader.Advance(byteLength);
 
+                //set the correct length to calculate position
+                this._cpLength = byteLength;
+
                 return true;
             }
             //try read remaing, and store them
             else if(this._reader.TryReadRemainingUInt
             (
                 out this._remainingCodeUnits,
-                out this._remaininLength
+                out this._remainingLength
             ))
             {
                 DecodeCodePoint
                 (
                     ref this._codePoint,
                     ref this._remainingCodeUnits,
-                    ref this._remaininLength,
+                    ref this._remainingLength,
                     out _
                 );
 

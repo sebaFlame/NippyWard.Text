@@ -14,7 +14,7 @@ namespace NippyWard.Text
             return new ReadOnlySequence<byte>
             (
                 start,
-                start.Memory.Length, //starts after end
+                0,
                 end,
                 end.Memory.Length //continues until end
             );
