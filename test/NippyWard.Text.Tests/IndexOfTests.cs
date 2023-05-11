@@ -80,8 +80,8 @@ namespace NippyWard.Text.Tests
         [Fact]
         public void IndexOfMultiSegmentAsciiTest()
         {
-            ReadOnlyMemory<byte> p1 = Utf8String.FromUtf16("Hello");
-            ReadOnlyMemory<byte> p2 = Utf8String.FromUtf16(" there!");
+            ReadOnlyMemory<byte> p1 = Utf8Helpers.FromUtf16("Hello");
+            ReadOnlyMemory<byte> p2 = Utf8Helpers.FromUtf16(" there!");
 
             Utf8StringSequenceSegment s1 = new Utf8StringSequenceSegment(p1);
             Utf8StringSequenceSegment s2 = new Utf8StringSequenceSegment(p2);
@@ -98,8 +98,8 @@ namespace NippyWard.Text.Tests
         [Fact]
         public void IndexOfMultiSegmentUtf8Test()
         {
-            ReadOnlyMemory<byte> p1 = Utf8String.FromUtf16("сейчас на");
-            ReadOnlyMemory<byte> multi = Utf8String.FromUtf16(" Десятую");
+            ReadOnlyMemory<byte> p1 = Utf8Helpers.FromUtf16("сейчас на");
+            ReadOnlyMemory<byte> multi = Utf8Helpers.FromUtf16(" Десятую");
             ReadOnlyMemory<byte> p2 = multi.Slice(0, 2); //slice in the middle of searched char
             ReadOnlyMemory<byte> p3 = multi.Slice(2);
 

@@ -71,7 +71,7 @@ namespace NippyWard.Text
             {
                 if(reader.TryRead(out byte b))
                 {
-                    value = (uint)b << 24;
+                    value = b;
                     return true;
                 }
                 else

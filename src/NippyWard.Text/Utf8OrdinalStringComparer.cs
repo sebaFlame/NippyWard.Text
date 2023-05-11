@@ -38,12 +38,45 @@ namespace NippyWard.Text
                 return 0;
             }
 
+            return this.Compare
+            (
+                x.GetEnumerator(),
+                y.GetEnumerator()
+            );
+        }
+
+        public override int Compare(Utf8Span x, Utf8Span y)
+        {
+            int leftLength = x.Length, rightLength = y.Length;
+
+            //lengths should be equal for ordinal compare
+            if (leftLength != rightLength)
+            {
+                return leftLength - rightLength;
+            }
+            //if both are 0 length
+            else if (rightLength == 0)
+            {
+                return 0;
+            }
+
+            return this.Compare
+            (
+                x.GetEnumerator(),
+                y.GetEnumerator()
+            );
+        }
+
+        public int Compare
+        (
+            Utf8CodePointEnumerator leftEnumerator,
+            Utf8CodePointEnumerator rightEnumerator
+        )
+        {
             uint lCp, rCp;
-            Utf8CodePointEnumerator leftEnumerator = x.GetEnumerator(),
-                rightEnumerator = y.GetEnumerator();
             long compare;
 
-            while(leftEnumerator.MoveNext()
+            while (leftEnumerator.MoveNext()
                 && rightEnumerator.MoveNext())
             {
                 //and get current code points
@@ -52,7 +85,7 @@ namespace NippyWard.Text
 
                 compare = lCp - rCp;
 
-                if(compare == 0)
+                if (compare == 0)
                 {
                     continue;
                 }
@@ -83,22 +116,49 @@ namespace NippyWard.Text
                 return false;
             }
 
+            return this.Equals
+            (
+                x.Buffer,
+                y.Buffer
+            );
+        }
+
+        public override bool Equals(Utf8Span x, Utf8Span y)
+        {
+            if (x.Length != y.Length)
+            {
+                return false;
+            }
+
+            return this.Equals
+            (
+                x.Buffer,
+                y.Buffer
+            );
+        }
+
+        public bool Equals
+        (
+            ReadOnlySequence<byte> leftBuffer,
+            ReadOnlySequence<byte> rightBuffer
+        )
+        {
             ReadOnlySequence<byte>.Enumerator leftEnumerator, rightEnumerator;
             ReadOnlySpan<byte> lSpan, rSpan, cl, cr;
-            int length = x.Length;
+            long length = leftBuffer.Length;
             int minLength;
 
-            leftEnumerator = x.Buffer.GetEnumerator();
-            rightEnumerator = y.Buffer.GetEnumerator();
+            leftEnumerator = leftBuffer.GetEnumerator();
+            rightEnumerator = rightBuffer.GetEnumerator();
 
             lSpan = rSpan = Span<byte>.Empty;
 
             //also checks if length is 0 (both)
-            while(length > 0)
+            while (length > 0)
             {
-                if(lSpan.Length == 0)
+                if (lSpan.Length == 0)
                 {
-                    if(leftEnumerator.MoveNext())
+                    if (leftEnumerator.MoveNext())
                     {
                         lSpan = leftEnumerator.Current.Span;
                     }
@@ -108,9 +168,9 @@ namespace NippyWard.Text
                     }
                 }
 
-                if(rSpan.Length == 0)
+                if (rSpan.Length == 0)
                 {
-                    if(rightEnumerator.MoveNext())
+                    if (rightEnumerator.MoveNext())
                     {
                         rSpan = rightEnumerator.Current.Span;
                     }
@@ -125,7 +185,7 @@ namespace NippyWard.Text
                 cl = lSpan.Slice(0, minLength);
                 cr = rSpan.Slice(0, minLength);
 
-                if(!cl.SequenceEqual(cr))
+                if (!cl.SequenceEqual(cr))
                 {
                     return false;
                 }
@@ -141,6 +201,9 @@ namespace NippyWard.Text
         }
 
         public override int GetHashCode([DisallowNull] Utf8String obj)
+            => (int)MurmurHash.Hash_x86_32(obj.Buffer);
+
+        public override int GetHashCode(Utf8Span obj)
             => (int)MurmurHash.Hash_x86_32(obj.Buffer);
     }
 }

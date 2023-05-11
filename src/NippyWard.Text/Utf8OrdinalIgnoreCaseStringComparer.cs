@@ -14,10 +14,19 @@ namespace NippyWard.Text
         public override int Compare(Utf8String x, Utf8String y)
             => Utf8SimpleCaseFolding.Instance.CompareUsingSimpleCaseFolding(x, y);
 
+        public override int Compare(Utf8Span x, Utf8Span y)
+            => Utf8SimpleCaseFolding.Instance.CompareUsingSimpleCaseFolding(x, y);
+
         public override bool Equals(Utf8String x, Utf8String y)
             => Utf8SimpleCaseFolding.Instance.CompareUsingSimpleCaseFolding(x, y) == 0;
 
+        public override bool Equals(Utf8Span x, Utf8Span y)
+            => Utf8SimpleCaseFolding.Instance.CompareUsingSimpleCaseFolding(x, y) == 0;
+
         public override int GetHashCode([DisallowNull] Utf8String obj)
-            => Utf8SimpleCaseFolding.Instance.GetHashCode(obj);
+            => Utf8SimpleCaseFolding.Instance.GetHashCode(obj.GetEnumerator());
+
+        public override int GetHashCode(Utf8Span obj)
+            => Utf8SimpleCaseFolding.Instance.GetHashCode(obj.GetEnumerator());
     }
 }

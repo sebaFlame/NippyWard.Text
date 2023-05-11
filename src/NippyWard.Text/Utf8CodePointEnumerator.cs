@@ -108,6 +108,43 @@ namespace NippyWard.Text
             return false;
         }
 
+        public uint Last
+        {
+            get
+            {
+                if (this._reader.Length >= 4)
+                {
+                    this._reader.AdvanceToEnd();
+                    this._reader.Rewind(4);
+                }
+
+                uint cp = 0;
+                uint remainingCodeUnits;
+                int remainingLength;
+
+                //read the last 4 bytes and decode 1 by 1 till the last one
+                if (this._reader.TryReadRemainingUInt
+                (
+                    out remainingCodeUnits,
+                    out remainingLength
+                ))
+                {
+                    do
+                    {
+                        DecodeCodePoint
+                        (
+                            ref cp,
+                            ref remainingCodeUnits,
+                            ref remainingLength,
+                            out _
+                        );
+                    } while (remainingLength > 0);
+                }
+
+                return cp;
+            }
+        }
+
         private static void DecodeCodePoint
         (
             ref uint codePoint,

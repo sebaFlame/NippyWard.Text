@@ -12,7 +12,7 @@ namespace NippyWard.Text
         }
 
         public Utf8StringSequenceSegment(string message)
-            : this(Utf8String.FromUtf16(message))
+            : this(Utf8Helpers.FromUtf16(message))
         { }
 
         public Utf8StringSequenceSegment AddNext(Utf8StringSequenceSegment next)

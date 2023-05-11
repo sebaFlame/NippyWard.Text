@@ -20,8 +20,17 @@ namespace NippyWard.Text.Tests
 
 #nullable enable annotations
         public override int GetHashCode([DisallowNull] Utf8String obj)
-            => this._caseFolding.GetHashCode(obj);
+            => this._caseFolding.GetHashCode(obj.GetEnumerator());
 #nullable disable annotations
+
+        public override int Compare(Utf8Span x, Utf8Span y)
+            => this._caseFolding.CompareUsingSimpleCaseFolding(x, y);
+
+        public override bool Equals(Utf8Span x, Utf8Span y)
+            => this._caseFolding.CompareUsingSimpleCaseFolding(x, y) == 0;
+
+        public override int GetHashCode(Utf8Span obj)
+            => this._caseFolding.GetHashCode(obj.GetEnumerator());
 
         private class RFC1459CaseFolding : BaseUtf8SimpleCaseFolding
         {

@@ -15,5 +15,9 @@ namespace NippyWard.Text
         public abstract int Compare(Utf8String x, Utf8String y);
         public abstract bool Equals(Utf8String x, Utf8String y);
         public abstract int GetHashCode([DisallowNull] Utf8String obj);
+
+        public abstract int Compare(Utf8Span x, Utf8Span y);
+        public abstract bool Equals(Utf8Span x, Utf8Span y);
+        public abstract int GetHashCode(Utf8Span obj);
     }
 }

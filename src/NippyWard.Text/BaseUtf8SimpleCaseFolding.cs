@@ -219,6 +219,21 @@ namespace NippyWard.Text
 
         public int CompareUsingSimpleCaseFolding
         (
+            Utf8Span leftStr,
+            Utf8Span rightStr
+        )
+        {
+            return this.CompareUsingSimpleCaseFolding
+            (
+                leftStr.GetEnumerator(),
+                leftStr.Length,
+                rightStr.GetEnumerator(),
+                rightStr.Length
+            );
+        }
+
+        public int CompareUsingSimpleCaseFolding
+        (
             Utf8CodePointEnumerator leftEnumerator,
             int leftLength,
             Utf8CodePointEnumerator rightEnumerator,
@@ -421,10 +436,7 @@ namespace NippyWard.Text
             return ch == 0 ? cp : ch | _SMPPrefix;
         }
 
-        public int GetHashCode(Utf8String str)
-            => this.GetHashCode(str.GetEnumerator());
-
-        internal int GetHashCode
+        public int GetHashCode
         (
             Utf8CodePointEnumerator enumerator
         )

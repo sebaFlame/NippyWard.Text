@@ -7,34 +7,21 @@ using System.Collections;
 
 namespace NippyWard.Text
 {
-    public class Utf8String : IEquatable<Utf8String>, IEnumerable<Rune>
+    //a stack-only variant of Utf8String
+    public readonly ref struct Utf8Span
     {
         public ReadOnlySequence<byte> Buffer => this._buffer;
         public int Length => (int)this._buffer.Length;
         public bool IsEmpty => this._buffer.IsEmpty;
 
-        public static readonly Utf8String Empty;
+        public static Utf8Span Empty => default;
 
         private readonly ReadOnlySequence<byte> _buffer;
-
-        private static readonly Encoding _Utf8Encoding;
-
-        [ThreadStatic]
-        private static Encoder _Encoder;
-
-        [ThreadStatic]
-        private static Decoder _Decoder;
-
-        static Utf8String()
-        {
-            _Utf8Encoding = new UTF8Encoding(false, true);
-            Empty = new Utf8String(ReadOnlySequence<byte>.Empty);
-        }
 
         /// <summary>
         /// <paramref name="str" /> contains a valid (!) UTF-8 string
         /// </summary>
-        public Utf8String(ReadOnlySequence<byte> str)
+        public Utf8Span(ReadOnlySequence<byte> str)
         {
             this._buffer = str;
         }
@@ -42,15 +29,15 @@ namespace NippyWard.Text
         /// <summary>
         /// <paramref name="str" /> contains a valid (!) UTF-8 string
         /// </summary>
-        public Utf8String(ReadOnlyMemory<byte> str)
+        public Utf8Span(ReadOnlyMemory<byte> str)
             : this(new ReadOnlySequence<byte>(str))
         { }
 
-        public Utf8String(string str)
+        public Utf8Span(string str)
             : this(Utf8Helpers.FromUtf16(str))
         { }
 
-        public Utf8String(Utf8Span str)
+        public Utf8Span(Utf8String str)
             : this(str.Buffer)
         { }
 
@@ -60,21 +47,11 @@ namespace NippyWard.Text
         public SequenceReader<byte> CreateSequenceReader()
             => new SequenceReader<byte>(this._buffer);
 
-        public override bool Equals(object obj)
-        {
-            if (obj is Utf8String str)
-            {
-                return Utf8String.Equals(this, str);
-            }
+        public Utf8Span Slice(int start, int length)
+            => new Utf8Span(this._buffer.Slice(start, length));
 
-            return false;
-        }
-
-        public Utf8String Slice(int start, int length)
-            => new Utf8String(this._buffer.Slice(start, length));
-
-        public Utf8String Slice(int start)
-            => new Utf8String(this._buffer.Slice(start));
+        public Utf8Span Slice(int start)
+            => new Utf8Span(this._buffer.Slice(start));
 
         public bool StartsWith(uint c)
             => Utf8Helpers.StartsWith(this.GetEnumerator(), c);
@@ -109,71 +86,6 @@ namespace NippyWard.Text
         public bool TryParseToInt(out int val)
             => Utf8Helpers.TryParseToInt(this.CreateSequenceReader(), out val);
 
-#nullable enable
-        public bool Equals(Utf8String? other)
-            => Utf8String.Equals(this, other);
-
-        public bool Equals(Utf8String? other, StringComparison stringComparison)
-            => Utf8String.Equals(this, other, stringComparison);
-
-        public static bool Equals(Utf8String? left, Utf8String? right)
-            => BaseUtf8StringComparer.Ordinal.Equals(left, right);
-
-        public static int Compare
-        (
-            Utf8String? strA,
-            Utf8String? strB,
-            StringComparison stringComparison
-        )
-        {
-            switch (stringComparison)
-            {
-                case StringComparison.CurrentCulture:
-                case StringComparison.CurrentCultureIgnoreCase:
-                case StringComparison.InvariantCulture:
-                case StringComparison.InvariantCultureIgnoreCase:
-                    throw new NotImplementedException();
-                case StringComparison.Ordinal:
-                    return Utf8OrdinalStringComparer
-                        .Ordinal
-                        .Compare(strA, strB);
-                case StringComparison.OrdinalIgnoreCase:
-                    return Utf8OrdinalStringComparer
-                        .OrdinalIgnoreCase
-                        .Compare(strA, strB);
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        public static bool Equals
-        (
-            Utf8String? strA,
-            Utf8String? strB,
-            StringComparison stringComparison
-        )
-        {
-            switch (stringComparison)
-            {
-                case StringComparison.CurrentCulture:
-                case StringComparison.CurrentCultureIgnoreCase:
-                case StringComparison.InvariantCulture:
-                case StringComparison.InvariantCultureIgnoreCase:
-                    throw new NotImplementedException();
-                case StringComparison.Ordinal:
-                    return Utf8OrdinalStringComparer
-                        .Ordinal
-                        .Equals(strA, strB);
-                case StringComparison.OrdinalIgnoreCase:
-                    return Utf8OrdinalStringComparer
-                        .OrdinalIgnoreCase
-                        .Equals(strA, strB);
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-#nullable disable
-
         public override int GetHashCode()
             => BaseUtf8StringComparer.Ordinal.GetHashCode(this);
 
@@ -182,7 +94,7 @@ namespace NippyWard.Text
 
         public static int GetHashCode
         (
-            Utf8String str,
+            Utf8Span str,
             StringComparison stringComparison
         )
         {
@@ -206,46 +118,48 @@ namespace NippyWard.Text
             }
         }
 
-        public static Utf8String Copy(Utf8String str)
+        public static int Compare
+        (
+            Utf8Span l,
+            Utf8Span r,
+            StringComparison stringComparison
+        )
+        {
+            switch (stringComparison)
+            {
+                case StringComparison.CurrentCulture:
+                case StringComparison.CurrentCultureIgnoreCase:
+                case StringComparison.InvariantCulture:
+                case StringComparison.InvariantCultureIgnoreCase:
+                    throw new NotImplementedException();
+                case StringComparison.Ordinal:
+                    return Utf8OrdinalStringComparer
+                        .Ordinal
+                        .Compare(l, r);
+                case StringComparison.OrdinalIgnoreCase:
+                    return Utf8OrdinalStringComparer
+                        .OrdinalIgnoreCase
+                        .Compare(l, r);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static Utf8Span Copy(Utf8Span str)
         {
             byte[] buf = new byte[str.Length];
             str.Buffer.CopyTo(buf);
 
-            return new Utf8String(buf);
+            return new Utf8Span(buf);
         }
 
-        public static explicit operator string(Utf8String str)
+        public static explicit operator string(Utf8Span str)
             => new string(Utf8Helpers.FromUtf8(str._buffer).Span);
 
-        public static explicit operator Utf8String(string str)
-            => new Utf8String(Utf8Helpers.FromUtf16(str));
+        public static explicit operator Utf8Span(string str)
+            => new Utf8Span(Utf8Helpers.FromUtf16(str));
 
-        public static explicit operator Utf8String(Utf8Span str)
-            => new Utf8String(str.Buffer);
-
-        IEnumerator<Rune> IEnumerable<Rune>.GetEnumerator()
-        {
-            RuneEnumerator enumerator = new RuneEnumerator(this);
-            int cnt = 0;
-
-            while (enumerator.MoveNext())
-            {
-                cnt++;
-            }
-
-            Rune[] runes = new Rune[cnt];
-            enumerator.Reset();
-            cnt = 0;
-
-            while (enumerator.MoveNext())
-            {
-                runes[cnt++] = enumerator.Current;
-            }
-
-            return ((IEnumerable<Rune>)runes).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => (this as IEnumerable<Rune>).GetEnumerator();
+        public static explicit operator Utf8Span(Utf8String str)
+            => new Utf8Span(str.Buffer);
     }
 }
