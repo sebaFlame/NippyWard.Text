@@ -68,6 +68,12 @@ namespace NippyWard.Text
             out int val
         )
         {
+            if(reader.Length == 0)
+            {
+                val = 0;
+                return false;
+            }
+
             bool negate = false;
             val = 0;
 

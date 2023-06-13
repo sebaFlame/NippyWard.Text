@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -87,7 +88,13 @@ namespace NippyWard.Text.Tests
             Utf8StringSequenceSegment s2 = new Utf8StringSequenceSegment(p2);
             s1.AddNext(s2);
 
-            ReadOnlySequence<byte> seq = s1.CreateReadOnlySequence(s2);
+            ReadOnlySequence<byte> seq = new ReadOnlySequence<byte>
+            (
+                s1,
+                0,
+                s2,
+                s2.Memory.Length
+            );
 
             Utf8String str = new Utf8String(seq);
 
@@ -112,7 +119,13 @@ namespace NippyWard.Text.Tests
                 .AddNext(s2)
                 .AddNext(s3);
 
-            ReadOnlySequence<byte> seq = s1.CreateReadOnlySequence(s3);
+            ReadOnlySequence<byte> seq = new ReadOnlySequence<byte>
+            (
+                s1,
+                0,
+                s3,
+                s3.Memory.Length
+            );
 
             Utf8String str = new Utf8String(seq);
 
