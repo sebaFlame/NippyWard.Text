@@ -214,6 +214,80 @@ namespace NippyWard.Text
             return new Utf8String(buf);
         }
 
+        public static Utf8String Join(byte seperator, IEnumerable<Utf8String> strings)
+        {
+            IEnumerator<Utf8String> enumerator = strings.GetEnumerator();
+            Utf8StringSequenceSegment first = null, last = null;
+
+            //allocate seperator array
+            byte[] seperatorArr = new byte[1];
+            seperatorArr[0] = seperator;
+
+            static Utf8StringSequenceSegment AddSequence
+            (
+                ref Utf8StringSequenceSegment first,
+                ref Utf8StringSequenceSegment last,
+                Utf8String str
+            )
+            {
+                Utf8StringSequenceSegment previous = last, segment;
+
+                foreach (ReadOnlyMemory<byte> memory in str.Buffer)
+                {
+                    segment = new Utf8StringSequenceSegment(memory);
+
+                    if (first is null)
+                    {
+                        first = segment;
+                        previous = first;
+
+                        continue;
+                    }
+
+                    previous = previous.AddNext(segment);
+                }
+
+                return previous;
+            }
+
+            static Utf8StringSequenceSegment AddSeperator
+            (
+                Utf8StringSequenceSegment last,
+                byte[] seperatorArr
+            )
+            {
+                return last.AddNext
+                (
+                    new Utf8StringSequenceSegment(seperatorArr)
+                );
+            }
+
+            if(enumerator.MoveNext())
+            {
+                last = AddSequence(ref first, ref last, enumerator.Current);
+            }
+            else
+            {
+                throw new InvalidOperationException("Sequence is empty");
+            }
+
+            while (enumerator.MoveNext())
+            {
+                last = AddSeperator(last, seperatorArr);
+                last = AddSequence(ref first, ref last, enumerator.Current);
+            }
+
+            ReadOnlySequence<byte> sequence = new ReadOnlySequence<byte>
+            (
+                first,
+                0,
+                last,
+                last.Memory.Length
+            );
+
+            return new Utf8String(sequence);
+        }
+
         public static explicit operator string(Utf8String str)
             => new string(Utf8Helpers.FromUtf8(str._buffer).Span);
 
