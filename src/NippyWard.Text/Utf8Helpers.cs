@@ -62,7 +62,7 @@ namespace NippyWard.Text
             return reader.Consumed;
         }
 
-        internal static bool TryParseToInt
+        internal static bool TryParse
         (
             SequenceReader<byte> reader,
             out int val
@@ -74,13 +74,13 @@ namespace NippyWard.Text
                 return false;
             }
 
-            bool negate = false;
-            val = 0;
+            int sign = 1;
+            int answer = 0;
 
             if (reader.TryPeek(out byte neg)
                 && neg == 0x2D)
             {
-                negate = true;
+                sign = -1;
                 reader.Advance(1);
             }
 
@@ -89,19 +89,70 @@ namespace NippyWard.Text
                 if (v >= 0x30
                     && v <= 0x39)
                 {
-                    val = val * 10 + (v - 0x30);
+                    answer = answer * 10 + (v - 0x30);
+
+                    //overflow
+                    if ((uint)answer > (uint)int.MaxValue + (-1 * sign + 1) / 2)
+                    {
+                        val = default;
+                        return false;
+                    }
                 }
                 else
                 {
+                    val = default;
                     return false;
                 }
             }
 
-            if (negate)
+            val = answer * sign;
+            return true;
+        }
+
+        internal static bool TryParse
+        (
+            SequenceReader<byte> reader,
+            out long val
+        )
+        {
+            if (reader.Length == 0)
             {
-                val = -val;
+                val = 0;
+                return false;
             }
 
+            int sign = 1;
+            long answer = 0;
+
+            if (reader.TryPeek(out byte neg)
+                && neg == 0x2D)
+            {
+                sign = -1;
+                reader.Advance(1);
+            }
+
+            while (reader.TryRead(out byte v))
+            {
+                if (v >= 0x30
+                    && v <= 0x39)
+                {
+                    answer = answer * 10 + (v - 0x30);
+
+                    //overflow
+                    if ((ulong)answer > (ulong)(long.MaxValue + (-1 * sign + 1) / 2))
+                    {
+                        val = default;
+                        return false;
+                    }
+                }
+                else
+                {
+                    val = default;
+                    return false;
+                }
+            }
+
+            val = answer * sign;
             return true;
         }
 

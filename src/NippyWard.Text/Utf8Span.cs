@@ -83,8 +83,11 @@ namespace NippyWard.Text
         public long IndexOf(byte b)
             => Utf8Helpers.IndexOf(this.CreateSequenceReader(), b);
 
-        public bool TryParseToInt(out int val)
-            => Utf8Helpers.TryParseToInt(this.CreateSequenceReader(), out val);
+        public bool TryParse(out int val)
+            => Utf8Helpers.TryParse(this.CreateSequenceReader(), out val);
+
+        public bool TryParse(out long val)
+            => Utf8Helpers.TryParse(this.CreateSequenceReader(), out val);
 
         public override int GetHashCode()
             => BaseUtf8StringComparer.Ordinal.GetHashCode(this);

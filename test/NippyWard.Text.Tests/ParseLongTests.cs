@@ -7,13 +7,13 @@ using Xunit;
 
 namespace NippyWard.Text.Tests
 {
-    public class ParseIntTests
+    public class ParseLongTests
     {
         [Fact]
         public void ParseSingleDigitTest()
         {
             Utf8String str = new Utf8String("2");
-            Assert.True(str.TryParse(out int val));
+            Assert.True(str.TryParse(out long val));
             Assert.Equal(2, val);
         }
 
@@ -21,7 +21,7 @@ namespace NippyWard.Text.Tests
         public void ParseMultiDigitTest()
         {
             Utf8String str = new Utf8String("12");
-            Assert.True(str.TryParse(out int val));
+            Assert.True(str.TryParse(out long val));
             Assert.Equal(12, val);
         }
 
@@ -29,7 +29,7 @@ namespace NippyWard.Text.Tests
         public void ParseSingleDigitNegativeTest()
         {
             Utf8String str = new Utf8String("-2");
-            Assert.True(str.TryParse(out int val));
+            Assert.True(str.TryParse(out long val));
             Assert.Equal(-2, val);
         }
 
@@ -37,38 +37,38 @@ namespace NippyWard.Text.Tests
         public void ParseMultiDigitNegativeTest()
         {
             Utf8String str = new Utf8String("-12");
-            Assert.True(str.TryParse(out int val));
+            Assert.True(str.TryParse(out long val));
             Assert.Equal(-12, val);
         }
 
         [Fact]
         public void ParseMaxIntTest()
         {
-            Utf8String str = new Utf8String($"{int.MaxValue}");
-            Assert.True(str.TryParse(out int val));
-            Assert.Equal(int.MaxValue, val);
+            Utf8String str = new Utf8String($"{long.MaxValue}");
+            Assert.True(str.TryParse(out long val));
+            Assert.Equal(long.MaxValue, val);
         }
 
         [Fact]
         public void ParseMinIntTest()
         {
-            Utf8String str = new Utf8String($"{int.MinValue}");
-            Assert.True(str.TryParse(out int val));
-            Assert.Equal(int.MinValue, val);
+            Utf8String str = new Utf8String($"{long.MinValue}");
+            Assert.True(str.TryParse(out long val));
+            Assert.Equal(long.MinValue, val);
         }
 
         [Fact]
         public void ParseOverflowTest()
         {
-            Utf8String str = new Utf8String($"{(uint)int.MaxValue + 12}");
-            Assert.False(str.TryParse(out int _));
+            Utf8String str = new Utf8String($"{(ulong)long.MaxValue + 12}");
+            Assert.False(str.TryParse(out long _));
         }
 
         [Fact]
         public void ParseNoDigitTest()
         {
             Utf8String str = new Utf8String("12 ");
-            Assert.False(str.TryParse(out int _));
+            Assert.False(str.TryParse(out long _));
         }
     }
 }
