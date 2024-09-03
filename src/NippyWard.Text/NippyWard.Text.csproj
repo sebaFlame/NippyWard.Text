@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix>alpha1</VersionSuffix>
+  </PropertyGroup>
+
+  <!-- All project references -->
+  <ItemGroup>
+    <ProjectReference Include="..\NippyWard.Text.Core\NippyWard.Text.Core.csproj" PrivateAssets="all"/>
+    <ProjectReference Include="..\NippyWard.Text.LineFeed\NippyWard.Text.LineFeed.csproj" PrivateAssets="all"/>
+    <ProjectReference Include="..\NippyWard.Text.Validation\NippyWard.Text.Validation.csproj" PrivateAssets="all"/>
+  </ItemGroup>
+
+  <!-- Include project references build ouput into package -->
+  <PropertyGroup>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+  </PropertyGroup>
+
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+    <ItemGroup>
+      <_ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(_ReferenceCopyLocalPaths)" TargetPath="%(_ReferenceCopyLocalPaths.DestinationSubDirectory)"/>
+    </ItemGroup>
+  </Target>
+
+  <!-- Remove built dll from package - https://stackoverflow.com/a/53663559 -->
+  <PropertyGroup>
+    <GenerateNuspecDependsOn>RemoveBuiltOutput</GenerateNuspecDependsOn>
+  </PropertyGroup>
+
+  <Target Name="RemoveBuiltOutput" Returns="@(NuGetPackInput);@(_BuildOutputInPackage);@(_TargetPathsToSymbols)">
+    <ItemGroup>
+      <NuGetPackInput Remove="@(BuiltProjectOutputGroupKeyOutput);@(DebugSymbolsProjectOutputGroupOutput)"/>
+      <_BuildOutputInPackage Remove="@(BuiltProjectOutputGroupKeyOutput)"/>
+      <_TargetPathsToSymbols Remove="@(DebugSymbolsProjectOutputGroupOutput)"/>
+    </ItemGroup>
+  </Target>
+</Project>

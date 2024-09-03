@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFACD311-9696-4E9C-A75E-B1AB0B98FA17}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text", "src\NippyWard.Text.Core\NippyWard.Text.Core.csproj", "{328C33C8-3FD6-4D9A-B66D-274B67AABC40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text.Core", "src\NippyWard.Text.Core\NippyWard.Text.Core.csproj", "{328C33C8-3FD6-4D9A-B66D-274B67AABC40}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text.Generator", "src\NippyWard.Text.Generator\NippyWard.Text.Generator.csproj", "{78B89F7C-C2C9-4B57-BA05-6BF765A92C60}"
 EndProject
@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text.Validation",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text.Validation.Tests", "test\NippyWard.Text.Validation.Tests\NippyWard.Text.Validation.Tests.csproj", "{F1E531F4-1C95-416E-A6EE-FDD6A0604530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validation", "bench\Validation\Validation.csproj", "{432C709A-71AC-4E23-B587-46DC5DD6231C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validation", "bench\Validation\Validation.csproj", "{432C709A-71AC-4E23-B587-46DC5DD6231C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NippyWard.Text", "src\NippyWard.Text\NippyWard.Text.csproj", "{CE2C17EB-2118-4F48-9E03-9266BAA2102A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +88,10 @@ Global
 		{432C709A-71AC-4E23-B587-46DC5DD6231C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{432C709A-71AC-4E23-B587-46DC5DD6231C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{432C709A-71AC-4E23-B587-46DC5DD6231C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE2C17EB-2118-4F48-9E03-9266BAA2102A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE2C17EB-2118-4F48-9E03-9266BAA2102A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE2C17EB-2118-4F48-9E03-9266BAA2102A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE2C17EB-2118-4F48-9E03-9266BAA2102A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{D3CE5F67-AF75-4369-AC0A-E97D165E815C} = {EFACD311-9696-4E9C-A75E-B1AB0B98FA17}
 		{F1E531F4-1C95-416E-A6EE-FDD6A0604530} = {661DCEE4-4917-49B2-A428-13F419E993DF}
 		{432C709A-71AC-4E23-B587-46DC5DD6231C} = {8A6ABCFF-CE57-44A9-A1B8-4D91A29C5F98}
+		{CE2C17EB-2118-4F48-9E03-9266BAA2102A} = {EFACD311-9696-4E9C-A75E-B1AB0B98FA17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D02F53E-C1F8-4AA9-9BD5-088506D3EE58}
