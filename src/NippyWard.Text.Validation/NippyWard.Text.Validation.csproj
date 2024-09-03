@@ -9,7 +9,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\NippyWard.Text\NippyWard.Text.csproj" />
+    <ProjectReference Include="..\NippyWard.Text.Core\NippyWard.Text.Core.csproj" />
   </ItemGroup>
 
 </Project>

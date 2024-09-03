@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NippyWard.Text\NippyWard.Text.csproj" />
+    <ProjectReference Include="..\..\src\NippyWard.Text.Core\NippyWard.Text.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

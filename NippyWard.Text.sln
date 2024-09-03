@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFACD311-9696-4E9C-A75E-B1AB0B98FA17}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text", "src\NippyWard.Text\NippyWard.Text.csproj", "{328C33C8-3FD6-4D9A-B66D-274B67AABC40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text", "src\NippyWard.Text.Core\NippyWard.Text.Core.csproj", "{328C33C8-3FD6-4D9A-B66D-274B67AABC40}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NippyWard.Text.Generator", "src\NippyWard.Text.Generator\NippyWard.Text.Generator.csproj", "{78B89F7C-C2C9-4B57-BA05-6BF765A92C60}"
 EndProject
